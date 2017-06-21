@@ -1,0 +1,20 @@
+title
+//title/text()
+
+author
+"//*[contains(@class, 'byline__name')]/text()"
+
+section
+response.xpath("//*[contains(@class, 'mini-info-list__section')]/text()").extract()[1]
+
+
+meta content
+//meta[@name='description']/@content
+
+
+Data time:
+response.xpath("//*[contains(@class, 'date--v2')]/text()").extract_first()
+
+
+
+
