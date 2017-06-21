@@ -85,8 +85,8 @@ class MyLogger(object):
 
 
 """continuous Logger"""   
-newsLogger = MyLogger(logger_name='myLogger',log_dir="logs/newsLogs",logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s')
-dbLogger = MyLogger(logger_name='myLogger',log_dir="logs/dbLogs",logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s')
+newsLogger = MyLogger(logger_name='NewsLogger',log_dir="logs/newsLogs",logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s')
+dbLogger = MyLogger(logger_name='DBLogger',log_dir="logs/dbLogs",logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s')
 
 
 

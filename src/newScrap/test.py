@@ -4,7 +4,8 @@ def test(url):
   index = url.rfind('/')
   url = url[:index]
   print(url)
-  extract = tldextract.extract(url)  
+  extract = tldextract.extract(url) 
+  print(extract[2]) 
   print(extract)
 
 

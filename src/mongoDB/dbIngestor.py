@@ -12,6 +12,9 @@ class Ingestor:
 #     client.drop_database(config.DB_NAME);exit()    
     self.db = client[config.DB_NAME]
     self.article_collection = self.db[config.DB_ART_COLLECTION]
+#     print(self.db.command('collStats', config.DB_ART_COLLECTION))
+#     exit()    
+
         
     try:
       self.article_collection.create_index([("url", pymongo.ASCENDING)],unique=True)
@@ -42,9 +45,30 @@ class Ingestor:
         break;
       
       searchList.append(elem)
+    
+    if(len(searchList)==0):
+      dbLogger.info("Query:%s no result" %(query))
+      
       
     for i,elem in enumerate(searchList):
       print("\nResult: "+str(i))
       print("Title: "+str(elem['title']))
       print("Url: "+str(elem['url']))
       print("Keywords: "+str(elem['keywords']))
+      
+def checkDB():
+  dbIng = Ingestor()
+  print(dbIng.db.command('collStats', config.DB_ART_COLLECTION)['count'])
+  cursorList = dbIng.article_collection.find()
+  
+  maxCount = 10
+  for i,elem in enumerate(cursorList):
+        if i > maxCount:
+          break
+        print("\nResult: "+str(i))
+        print("Title: "+str(elem['title']))
+        print("Url: "+str(elem['url']))
+        print("Keywords: "+str(elem['keywords']))  
+        
+checkDB()
+

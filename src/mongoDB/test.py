@@ -90,7 +90,7 @@ import pymongo
 class Ingestor:
   def __init__(self):
     client = MongoClient('mongodb://localhost:27017/')
-#     client.drop_database(config.DB_NAME);exit()    
+    client.drop_database(config.DB_NAME);exit()    
     self.db = client[config.DB_NAME]
     self.article_collection = self.db[config.DB_ART_COLLECTION]
         
