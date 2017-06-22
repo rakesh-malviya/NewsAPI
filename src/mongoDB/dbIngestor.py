@@ -35,7 +35,11 @@ class Ingestor:
   
   def keywordSearch(self,query,maxResult=5):
     if query and len(query)>0:
-      searchGen =  self.article_collection.find({'$text': {'$search': query}})
+      searchGen =  self.article_collection.find(
+                                                  {'$text': {'$search': query}},
+                                                  { "score": { "$meta": "textScore" } },
+                                                  sort=[("score",{ "$meta": "textScore" })]
+                                                )
     else:
       searchGen =  self.article_collection.find()
     searchList = []
@@ -51,6 +55,7 @@ class Ingestor:
       
       
     for i,elem in enumerate(searchList):
+#       pprint(elem)
       print("\nResult: "+str(i))
       print("Title: "+str(elem['title']))
       print("Url: "+str(elem['url']))
