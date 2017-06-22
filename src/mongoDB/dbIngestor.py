@@ -59,16 +59,17 @@ class Ingestor:
 def checkDB():
   dbIng = Ingestor()
   print(dbIng.db.command('collStats', config.DB_ART_COLLECTION)['count'])
-  cursorList = dbIng.article_collection.find()
   
-  maxCount = 10
-  for i,elem in enumerate(cursorList):
-        if i > maxCount:
-          break
-        print("\nResult: "+str(i))
-        print("Title: "+str(elem['title']))
-        print("Url: "+str(elem['url']))
-        print("Keywords: "+str(elem['keywords']))  
+#   cursorList = dbIng.article_collection.find()
+#   
+#   maxCount = 10
+#   for i,elem in enumerate(cursorList):
+#         if i > maxCount:
+#           break
+#         print("\nResult: "+str(i))
+#         print("Title: "+str(elem['title']))
+#         print("Url: "+str(elem['url']))
+#         print("Keywords: "+str(elem['keywords']))  
         
 checkDB()
 

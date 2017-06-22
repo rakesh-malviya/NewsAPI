@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import re
 from scrapy.linkextractor import LinkExtractor
 from scrapy.spiders import Rule, CrawlSpider
 # import sys,os
@@ -24,7 +25,7 @@ bad_keys = ['shop', 'cookies', 'register', 'help', 'search', 'twitter', 'terms-o
             'plus', 'account', 'password', 'site-map', 'coupons', 'subscription', 'info', 
             'stumbleupon', 'about', 'flickr', 'forum', 'admin', 'vimeo', 'bebo', 'how to', 
             'youtube', 'itunes', 'mobile', 'siteindex', 'contact', 'services', 'store', 
-            'imgur', 'login', 'shopping', 'sitemap', 'proxy']
+            'imgur', 'login', 'shopping', 'sitemap', 'proxy',"comments"]
 
 class NewsSpider(CrawlSpider):
     # The name of the spider
@@ -72,13 +73,35 @@ class NewsSpider(CrawlSpider):
         for link in links:
             index = link.url.rfind('/')
             linkUrlPart = link.url[:index]
+            
+            
+            
+            #skip bad urls
             if any(x in linkUrlPart for x in bad_keys):
               continue
+            
+            #check if article webpage
+            try:
+              linkUrlPartEnd = link.url[index+1:]
+              if linkUrlPartEnd and len(linkUrlPartEnd):
+                #Remove special characters  
+                linkUrlPartEnd = re.sub(r'[^A-Za-z0-9]', ' ', linkUrlPartEnd)
+                linkUrlPartEndList = linkUrlPartEnd.split()
+                if len(linkUrlPartEndList)<2:                   
+                  # this web page points to some category not news article
+                  continue
+              else:
+                # this web page points to some category not news article
+                continue
+            
+            except Exception as e:
+              newsLogger.error("Exception:%s at url:%s" %(str(e),link.url))
+              
             for allowed_domain in self.allowed_domains:              
-                if allowed_domain in linkUrlPart:
-                  writeFile(link.url)
+                if allowed_domain in linkUrlPart:                  
                   articleData = self.extract_article_info(link.url)
                   if len(articleData['keywords'])!=0 :
+                    writeFile(link.url)
                     self.insert_article_data_db(articleData)
                   
                                                       
