@@ -19,7 +19,7 @@
 * set number of search results in config/newsAPI.cfg MAX_SEARCH_COUNT
 * set desired port in config/newsAPI.cfg API_PORT
 * python newsApp.py 
-* Go to [App](http://localhost:5001/) run query
+* Go to http://localhost:<API_PORT> to run query
 
 ## Prerequisites 
 * install anaconda python 2.7
