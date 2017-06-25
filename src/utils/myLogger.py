@@ -12,7 +12,7 @@ import datetime
 
 
 class MyLogger(object):
-  def __init__(self,logger_name,log_dir,logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s',log_level=logging.DEBUG):
+  def __init__(self,logger_name,log_dir,logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s',log_level=logging.WARNING):
     self.datewise = datewise
     self.datetime = datetime.date.today().strftime('%d%b%Y')
     self.logger_name = logger_name
@@ -87,6 +87,7 @@ class MyLogger(object):
 """continuous Logger"""   
 newsLogger = MyLogger(logger_name='NewsLogger',log_dir="logs/newsLogs",logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s')
 dbLogger = MyLogger(logger_name='DBLogger',log_dir="logs/dbLogs",logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s')
+appLogger = MyLogger(logger_name='AppLogger',log_dir="logs/appLogs",logfile_name="_myLog.log",datewise=True,mode='a+',log_format = '%(asctime)s %(levelname)s %(message)s')
 
 
 

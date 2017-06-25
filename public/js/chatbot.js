@@ -352,10 +352,8 @@ var ChatBot = function () {
                     	$.post("/generator", {"q":query})
                         .done(function (data) {
 							console.log(data);							
-                            var content = data.Data;
-                            var treeContent = data.treeStr;                            				
-							var arrayLength = content.length;							
-							//ChatBot.addTree(treeContent,"bot");
+                            var content = data.answer;
+                   	    var arrayLength = content.length;
 							for (var i = 0; i < arrayLength; i++) {
 								ChatBot.addChatEntry(content[i], "bot");
 							}                            

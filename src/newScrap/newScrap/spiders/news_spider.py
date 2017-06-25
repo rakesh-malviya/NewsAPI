@@ -3,12 +3,14 @@ import scrapy
 import re
 from scrapy.linkextractor import LinkExtractor
 from scrapy.spiders import Rule, CrawlSpider
-# import sys,os
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
 from src.utils.myLogger import newsLogger
 from src.utils import articleExtNewspaper as aen
 from tldextract import extract
 from src.mongoDB import dbIngestor  
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def writeFile(url):
   with open("urlFile.txt","a+") as urlFile:
@@ -36,6 +38,7 @@ class NewsSpider(CrawlSpider):
       self.website = website
       self.start_urls = [website]
       self.dbIngestor = dbIngestor.Ingestor()
+      self.aen = aen.NewsPaperEngine()
       
       # Get domain from tldextract API
       extractResult = extract(website) 
@@ -100,6 +103,8 @@ class NewsSpider(CrawlSpider):
             for allowed_domain in self.allowed_domains:              
                 if allowed_domain in linkUrlPart:                  
                   articleData = self.extract_article_info(link.url)
+                  if articleData==None:
+                    continue
                   if len(articleData['keywords'])!=0 :
                     writeFile(link.url)
                     self.insert_article_data_db(articleData)
@@ -111,6 +116,8 @@ class NewsSpider(CrawlSpider):
       
                   
     def extract_article_info(self,url):
-      dataDict = aen.getArticleData(url)
+      dataDict = self.aen.getArticleData(url)
+      if dataDict==None:
+        return None
       dataDict['website'] = self.website
       return dataDict

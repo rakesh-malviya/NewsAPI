@@ -1,5 +1,16 @@
+# -*- coding: utf-8 -*-
+
 from src.mongoDB.dbIngestor import Ingestor
 from pprint import pprint
+from src.utils import config
 dbEngine = Ingestor()
-# pprint(dbEngine.article_collection.find_one({"url":"http://www.bbc.com/news/uk-40357280"}))
-dbEngine.keywordSearch("Grenfell Tower survivors")
+# dbEngine.keywordSearch("Grenfell Tower survivor")
+while True:
+    try:
+        query = raw_input('Enter Search Keywords > ')
+        if len(query)==0:
+          break
+        dbEngine.keywordSearch(query,maxResult=config.MAX_SEARCH_COUNT)
+    except EOFError:
+        break
+
